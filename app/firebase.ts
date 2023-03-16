@@ -1,7 +1,8 @@
+import type { ServiceAccount } from "firebase-admin";
 import { initializeApp, cert, getApps } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 
-const serviceAccount = require("./cors.json")
+const serviceAccount: ServiceAccount = require("./cors.json")
 if (getApps().length === 0) {
   initializeApp({
     credential: cert(serviceAccount),
