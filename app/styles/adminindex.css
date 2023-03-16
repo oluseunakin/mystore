@@ -1,0 +1,4 @@
+body > div > div > div {
+    display: flex;
+    justify-content: center;
+}

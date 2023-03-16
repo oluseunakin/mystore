@@ -1,0 +1,8 @@
+body > div {
+    display: flex;
+    justify-content: center;
+}
+body > div > div > h1 {
+    display: flex;
+    justify-content: center;
+}

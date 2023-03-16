@@ -1,0 +1,106 @@
+* {
+  box-sizing: content-box;
+}
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+li {
+  margin: 0 1%;
+  flex: 1;
+  list-style: none;
+}
+.r:hover {
+  background-image: url('~/star-full.svg');
+  width: 6vw;
+  height: 60px;
+  background-repeat: no-repeat;
+}
+.r{
+  background-image: url('~/star-light.svg');
+  width: 6vw;
+  height: 60px;
+  background-repeat: no-repeat;
+}
+.all li {
+    flex: none;
+    margin: 2vh 0;
+}
+@media screen and (min-width: 30em) {
+  body > div {
+    display: flex;
+  }
+  .all + div {
+    flex: 1
+  }
+  .products {
+    margin: 7vh 0;
+    display: flex;
+    flex-wrap: wrap;
+  }  
+}
+.all {
+    display: flex;
+    justify-content: center;
+}
+.all > ul {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+li > input {
+  background: white;
+  border: 0;
+  cursor: pointer;
+  font-size: large;
+}
+.carts {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+}
+.product h3 {
+  display: flex;
+  justify-content: center;
+}
+.star {
+  width: 1vw;
+}
+.product > div:last-child {
+  margin-top: 2vh;
+  display: flex;
+  justify-content: space-around;
+}
+.product > div > div:last-child {
+  display: flex;
+  justify-content: space-between;
+}
+.product > div > p + div {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2vh;
+}
+main > div > h1 {
+    display: flex;
+    justify-content: center;
+}
+.product button {
+  background-color: white;
+  border: 0;
+}
+.product button:hover {
+  cursor: pointer;
+}
+img {
+  max-width: 100%;
+}
+.product {
+  margin: 0 2%;
+  flex: 1;
+}
+.product > div > div:nth-of-type(2) {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}

@@ -1,0 +1,72 @@
+[
+  {
+    "product": {
+      "name": "Dell",
+      "quantity": 56,
+      "description": "jjdfjj hjdhjd hjdshjd hjdshjds",
+      "rating": 3,
+      "price": 5000
+    },
+    "category": "Computer"
+  },
+  {
+    "product": {
+      "name": "HP",
+      "quantity": 30,
+      "description": "jjdfjj hjdhjd hjdshjd hjdshjds",
+      "rating": 4,
+      "price": 8000
+    },
+    "category": "Computer"
+  },
+  {
+    "product": {
+      "name": "Samsung",
+      "quantity": 20,
+      "description": "jjdfjj hjdhjd hjdshjd hjdshjds",
+      "rating": 5,
+      "price": 7000
+    },
+    "category": "Phone"
+  },
+  {
+    "product": {
+      "name": "Vivo",
+      "quantity": 90,
+      "description": "jjdfjj hjdhjd hjdshjd hjdshjds",
+      "rating": 3,
+      "price": 5000
+    },
+    "category": "Phone"
+  },
+  {
+    "product": {
+      "name": "Apple",
+      "quantity": 26,
+      "description": "jjdfjj hjdhjd hjdshjd hjdshjds",
+      "rating": 5,
+      "price": 9000
+    },
+    "category": "Phone"
+  },
+  {
+    "product": {
+      "name": "Lenovo",
+      "quantity": 56,
+      "description": "jjdfjj hjdhjd hjdshjd hjdshjds",
+      "rating": 3,
+      "price": 5000
+    },
+    "category": "Computer"
+  },
+  {
+    "product": {
+      "name": "Apple",
+      "quantity": 78,
+      "description": "jjdfjj hjdhjd hjdshjd hjdshjds",
+      "rating": 5,
+      "price": 12000
+    },
+    "category": "Computer"
+  }
+]

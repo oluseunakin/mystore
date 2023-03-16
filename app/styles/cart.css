@@ -1,0 +1,28 @@
+.cart > div {
+    border: 1px solid white;
+    background-color: darkslateblue;
+    box-shadow: 0 0 blueviolet;
+    margin: 0 auto;
+    padding: 5%;
+} 
+.cart{
+    width: 100%;
+}
+.order {
+    display: flex;
+    justify-content: center;
+    font-size: large;
+}
+.cart > div > div{
+    display: flex;
+    justify-content: space-around;
+    margin: 2%;
+}
+.cart input {
+    background: white;
+    border: 0;
+    cursor: pointer;
+}
+.cart > div > div > div {
+    flex: 1;
+}

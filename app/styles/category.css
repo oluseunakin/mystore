@@ -1,0 +1,11 @@
+h1 {
+    display: flex;
+    justify-content: center;
+}
+.products + div {
+    display: flex;
+    justify-content: center;
+}
+.products + div > * {
+    padding: 5vw;
+}
