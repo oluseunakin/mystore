@@ -65,7 +65,8 @@ li > input {
   justify-content: center;
 }
 .star {
-  width: 1vw;
+  width: 48px;
+  height: 48px;
 }
 .product > div:last-child {
   margin-top: 2vh;
