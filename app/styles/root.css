@@ -66,21 +66,21 @@ li > input {
 }
 .star {
   width: 48px;
-  height: 48px;
 }
 .product > div:last-child {
-  margin-top: 2vh;
+  margin-top: 5%;
   display: flex;
   justify-content: space-around;
 }
 .product > div > div:last-child {
   display: flex;
   justify-content: space-between;
+  font-size: 48px;
 }
 .product > div > p + div {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 2vh;
+  margin-bottom: 5%;
 }
 main > div > h1 {
     display: flex;
