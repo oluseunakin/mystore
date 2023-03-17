@@ -12,14 +12,14 @@ li {
 }
 .r:hover {
   background-image: url('~/star-full.svg');
-  width: 6vw;
-  height: 60px;
+  width: 48px;
+  height: 48px;
   background-repeat: no-repeat;
 }
 .r{
   background-image: url('~/star-light.svg');
-  width: 6vw;
-  height: 60px;
+  width: 48px;
+  height: 48px;
   background-repeat: no-repeat;
 }
 .all li {
