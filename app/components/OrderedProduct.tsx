@@ -12,15 +12,13 @@ export function OrderedProductComponent(props: {
       <div>{product.price}</div>
       <div>{product.total}</div>
       <div>
-        <input
-          type="button"
-          value="Remove"
+        <button
           onClick={(e) => {
             removeFromCart((oldCart: OrderedProduct[]) =>
               oldCart.filter((old) => old.name !== product.name)
             );
           }}
-        />
+        >Remove</button>
       </div>
     </div>
   );

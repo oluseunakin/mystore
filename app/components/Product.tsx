@@ -24,7 +24,12 @@ export function ProductComponent(props: {
   const rated = Array(5).fill(false);
   const [urls, setURLS] = useState<any[]>([]);
 
-  function handleImages(u: Promise<string>[]) {
+  useEffect(() => {
+    const storRage = storage();
+    const urlRefs = product.urls.map((url) => ref(storRage, url));
+    const u = urlRefs.map(async (ref) =>
+      URL.createObjectURL(await getBlob(ref))
+    );
     let images: JSX.Element[] = Array(urls.length);
     const all = Promise.all(u.map(async (url, i) => await url));
     all.then((a) => {
@@ -37,16 +42,7 @@ export function ProductComponent(props: {
       });
       setURLS(images);
     });
-    return null;
-  }
-  useEffect(() => {
-    const storRage = storage();
-    const urlRefs = product.urls.map((url) => ref(storRage, url));
-    const u = urlRefs.map(async (ref) =>
-      URL.createObjectURL(await getBlob(ref))
-    );
-    handleImages(u);
-  }, []);
+  }, [product.urls, product.urls.length, urls.length]);
   return (
     <div className="product">
       <div>
@@ -100,9 +96,7 @@ export function ProductComponent(props: {
               }
             }}
           />
-          <input
-            type="button"
-            value={addOrRemove ? "Add to Cart" : "Remove"}
+          <button
             onClick={() => {
               setError("added");
               setAddOrRemove(!addOrRemove);
@@ -110,7 +104,7 @@ export function ProductComponent(props: {
                 ? addToCart([...cart, op])
                 : addToCart(() => cart.filter((c) => c.name !== product.name));
             }}
-          />
+          >{addOrRemove ? "Add to Cart" : "Remove"}</button>
           {error === "You have requested for more than available" && (
             <p style={{ color: "red", fontSize: "small" }}>{error}</p>
           )}

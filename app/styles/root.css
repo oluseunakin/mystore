@@ -11,43 +11,45 @@ li {
   list-style: none;
 }
 .r:hover {
-  background-image: url('~/star-full.svg');
+  background-image: url("~/star-full.svg");
   width: 48px;
   height: 48px;
   background-repeat: no-repeat;
 }
-.r{
-  background-image: url('~/star-light.svg');
+.r {
+  background-image: url("~/star-light.svg");
   width: 48px;
   height: 48px;
+  background-color: white;
   background-repeat: no-repeat;
 }
 .all li {
-    flex: none;
-    margin: 2vh 0;
+  flex: none;
+  margin: 2vh 0;
 }
 @media screen and (min-width: 30em) {
   body > div {
     display: flex;
   }
   .all + div {
-    flex: 1
+    flex: 1;
   }
   .products {
     margin: 7vh 0;
     display: flex;
     flex-wrap: wrap;
-  }  
+  }
 }
 .all {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
+  padding-right: 10px;
 }
 .all > ul {
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 li > input {
   background: white;
@@ -68,27 +70,35 @@ li > input {
   width: 48px;
 }
 .product > div:last-child {
-  margin-top: 5%;
+  margin-top: 3%;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
+}
+button {
+  font-size: large;
+  border-radius: 15px;
+  color: white;
+  background-color: darkcyan;
+  border: 0;
 }
 .product > div > div:last-child {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   font-size: 48px;
 }
 .product > div > p + div {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 5%;
+  justify-content: space-evenly;
+  margin-bottom: 2%;
+}
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 main > div > h1 {
-    display: flex;
-    justify-content: center;
-}
-.product button {
-  background-color: white;
-  border: 0;
+  display: flex;
+  justify-content: center;
 }
 .product button:hover {
   cursor: pointer;

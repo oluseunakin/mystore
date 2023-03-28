@@ -26,17 +26,15 @@ export default function Cart() {
 
   return (
     <div className="cart">
-      <div>
-        <h1 className="order">Your Cart Details</h1>
-        {cart!.map((product, i) => (
-          <OrderedProductComponent
-            product={product}
-            key={i}
-            removeFromCart={removeFromCart}
-          />
-        ))}
-        <h4 className="order">Total Order is {total}</h4>
-      </div>
+      <h1 className="order">Your Cart Details</h1>
+      {cart!.map((product, i) => (
+        <OrderedProductComponent
+          product={product}
+          key={i}
+          removeFromCart={removeFromCart}
+        />
+      ))}
+      <h4 className="order">Total Order is {total}</h4>
     </div>
   );
 }

@@ -1,19 +1,17 @@
-.cart > div {
+.cart {
     border: 1px solid white;
     background-color: darkslateblue;
-    box-shadow: 0 0 blueviolet;
-    margin: 0 auto;
-    padding: 5%;
+    box-shadow: 0 0 #8a2be2;
+    padding: 2% 5% 0 5%;
+    color: wheat;
+    font-size: larger;
 } 
-.cart{
-    width: 100%;
-}
 .order {
     display: flex;
     justify-content: center;
     font-size: large;
 }
-.cart > div > div{
+.cart > div {
     display: flex;
     justify-content: space-around;
     margin: 2%;
