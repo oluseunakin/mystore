@@ -104,7 +104,7 @@ export default function Index() {
     scount != 0 &&
       getP &&
       topFetcher.state === "idle" &&
-      topFetcher.load("/getProducts?count=" + scount);
+      topFetcher.load("/getproducts/" + scount);
   }, [scount]);
 
   useEffect(() => {
