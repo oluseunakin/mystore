@@ -1,8 +1,65 @@
-body > div {
-    display: flex;
-    justify-content: center;
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
-body > div > div > h1 {
-    display: flex;
-    justify-content: center;
+main > h1,
+main > div:first-of-type,
+.cp > h2, .edit > a  {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+main > div:first-of-type {
+  gap: 10px;
+}
+.cp {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  gap: 20px;
+  margin-left: 15%;
+}
+.cp input,
+.cp textarea {
+  padding: 10px;
+}
+.add > button {
+  background-color: brown;
+  font-size: 1.2em;
+  color: white;
+}
+.create, .update {
+  display: flex;
+  justify-content: center;
+}
+.create > button, .update > button {
+  background-color: beige;
+  font-size: 2em;
+  color: red;
+  padding: 20px;
+}
+.media {
+  display: flex;
+  align-items: baseline;
+}
+.edit {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.edit > div {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.stock {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.stock > div {
+  display: flex;
+  justify-content: space-around;
 }

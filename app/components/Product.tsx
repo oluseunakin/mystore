@@ -1,115 +1,156 @@
-import { useSubmit } from "@remix-run/react";
-import { useEffect, useState } from "react";
-import type { OrderedProduct, Product } from "~/helper";
-import { storage } from "~/helper";
-import starlight from "~/star-light.svg";
-import { useContext } from "~/root";
-import { ref, getBlob } from "firebase/storage";
+import { useOutletContext } from "@remix-run/react";
+import { memo, useMemo, useRef, useState } from "react";
+import type { Product } from "~/helper";
+import type { ContextType } from "~/root";
+import { MediaComponent } from "./Media";
 
-export function ProductComponent(props: {
+export const ProductComponent = memo(function PC(props: {
   product: Product;
-  category?: string;
+  isStock?: boolean;
 }) {
-  const submit = useSubmit();
-  const { product, category } = props;
-  const { addToCart, cart } = useContext();
-  const [op, setOP] = useState<OrderedProduct>({
-    quantity: product.quantity,
-    name: product.name,
-    price: product.price,
-    total: product.price * product.quantity,
-  });
-  const [error, setError] = useState("");
-  const [addOrRemove, setAddOrRemove] = useState(true);
-  const rated = Array(5).fill(false);
-  const [urls, setURLS] = useState<any[]>([]);
+  const divRef = useRef<HTMLDivElement>(null);
+  const { cart, setCart, user } = useOutletContext<ContextType>();
+  const { product, isStock } = props;
+  const cartIndex = useMemo(() => {
+    return cart.findIndex((op, i) => op.name === product.name);
+  }, [cart, product]);
 
-  useEffect(() => {
-    const storRage = storage();
-    const urlRefs = product.urls.map((url) => ref(storRage, url));
-    const u = urlRefs.map(async (ref) =>
-      URL.createObjectURL(await getBlob(ref))
-    );
-    let images: JSX.Element[] = Array(urls.length);
-    const all = Promise.all(u.map(async (url, i) => await url));
-    all.then((a) => {
-      a.forEach((aa, i) => {
-        images[i] = (
-          <div key={i}>
-            <img src={aa} alt="not found" />
-          </div>
-        );
-      });
-      setURLS(images);
-    });
-  }, [product.urls, product.urls.length, urls.length]);
+  const op = cart[cartIndex];
+  const [quantity, setQuantity] = useState(0);
+  const [error, setError] = useState("");
+  const hasBoughtItemIndex = useMemo(
+    () =>
+      user
+        ? user.bought
+          ? user.bought.findIndex((bp) => bp.name === product.name)
+          : -1
+        : -1,
+    [user, product]
+  );
+  const [rating, setRating] = useState<boolean[]>(() => {
+    if (hasBoughtItemIndex == -1) return [];
+    const rated = user.bought[hasBoughtItemIndex].rating;
+    if (rated && rated > 0)
+      return Array(5)
+        .fill(false)
+        .map((r, i) => i < rated);
+    return Array(5).fill(false);
+  });
   return (
-    <div className="product">
-      <div>
-        <div>
-          <h3>{product.name}</h3>
-        </div>
-        <div>{urls}</div>
-        <p>{product.description}</p>
-        <div>
-          {rated.map((r, i) => (
+    <div className="product" ref={divRef}>
+      <h2>{product.name}</h2>
+      <h3>{product.description}</h3>
+      {product.urls!.length > 0 && (
+        <MediaComponent sources={product.urls!} />
+      )}
+      {hasBoughtItemIndex != -1 && (
+        <div className="ratings">
+          {rating.map((r, i) => (
             <button
               className="r"
               key={i}
               onClick={() => {
                 const fd = new FormData();
+                setRating((rating) => rating.map((r, j) => j <= i));
                 fd.append("rate", JSON.stringify(++i));
+                fd.append("pid", product.name);
                 fd.append("name", product.name);
-                category && fd.append("category", category);
-                submit(fd, {
-                  method: "post",
-                  action: "/rate",
-                });
+                fetch("/rate", { method: "post", body: fd });
               }}
-            ></button>
+            >
+              <span
+                className={(() =>
+                  r
+                    ? "material-symbols-outlined full"
+                    : "material-symbols-outlined")()}
+              >
+                star_rate
+              </span>
+            </button>
           ))}
         </div>
+      )}
+      <div className="info">
+        <div>
+          <span>{product.raters != 0 ? Math.round(product.rating! / product.raters!): 0}</span>
+          <span className="material-symbols-outlined">star</span>
+        </div>
+        <div>{product.quantity}</div>
+        <div>{product.price}</div>
+      </div>
+      {isStock && (
         <div>
           <div>
-            {product.rating}{" "}
-            <img className="star" src={starlight} alt="not found" />
+            <input
+              type="number"
+              placeholder="Enter quantity"
+              onChange={(e) => {
+                error && setError("");
+                if (e.target.valueAsNumber > product.quantity) {
+                  setError("We do not have up to that in stock");
+                } else setQuantity(e.target.valueAsNumber);
+              }}
+            />
           </div>
-          <div>{product.quantity}</div>
-          <div>{product.price}</div>
-        </div>
-      </div>
-      {addToCart && (
-        <div>
-          <input
-            type="number"
-            onChange={(e) => {
-              const quant = e.target.valueAsNumber;
-              if (quant > product.quantity) {
-                setError("You have requested for more than available");
-              } else {
+          <div>
+            {cartIndex != -1 && (
+              <button
+                onClick={() => {
+                  setError("");
+                  if (quantity > op!.quantity)
+                    setError("Press the + button to increase your quantity");
+                  else if (quantity == op!.quantity) {
+                    cart.splice(cartIndex, 1);
+                    setCart([...cart]);
+                  } else {
+                    op!.quantity -= quantity;
+                    op.nq = product.quantity - op.quantity;
+                    op!.total = op!.price * op!.quantity;
+                    setCart([...cart]);
+                  }
+                }}
+              >
+                <span className="material-symbols-outlined">remove</span>
+              </button>
+            )}
+            <button
+              onClick={(e) => {
                 setError("");
-                setOP({
-                  ...op,
-                  quantity: e.target.valueAsNumber,
-                  total: e.target.valueAsNumber * product.price,
-                });
-              }
-            }}
-          />
-          <button
-            onClick={() => {
-              setError("added");
-              setAddOrRemove(!addOrRemove);
-              addOrRemove
-                ? addToCart([...cart, op])
-                : addToCart(() => cart.filter((c) => c.name !== product.name));
-            }}
-          >{addOrRemove ? "Add to Cart" : "Remove"}</button>
-          {error === "You have requested for more than available" && (
-            <p style={{ color: "red", fontSize: "small" }}>{error}</p>
-          )}
+                if (cartIndex != -1) {
+                  op!.quantity += quantity;
+                  op.nq = product.quantity - op.quantity;
+                  if (op!.quantity > product.quantity) {
+                    setError("We do not have up to that in stock");
+                    op!.quantity -= quantity;
+                  } else {
+                    op!.total = op!.price * op!.quantity;
+                    setCart([...cart]);
+                  }
+                } else
+                  setCart([
+                    ...cart,
+                    {
+                      name: product.name,
+                      price: product.price,
+                      quantity,
+                      nq: product.quantity - quantity,
+                      total: quantity * product.price,
+                    },
+                  ]);
+              }}
+            >
+              <span className="material-symbols-outlined">add</span>
+            </button>
+          </div>
+        </div>
+      )}
+      {error && <p className="error">{error}</p>}
+      {cartIndex != -1 && op && (
+        <div className="pcart">
+          <h5>{op!.name}</h5>
+          <p>{op?.quantity}</p>
         </div>
       )}
     </div>
   );
-}
+});

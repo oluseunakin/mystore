@@ -1,0 +1,40 @@
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  width: 50%;
+  margin-left: 25%;
+}
+main > h2 {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  font-size: 2.5em;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+form input {
+  padding: 14px;
+}
+form > div:last-of-type {
+  display: flex;
+  justify-content: center;
+}
+form button {
+  border: none;
+  border-radius: 17px;
+  font-size: 2em;
+  padding: 10px;
+  background-color: crimson;
+  color: white;
+  cursor: pointer;
+}
+form + p {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}

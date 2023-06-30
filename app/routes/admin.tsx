@@ -1,5 +1,5 @@
 import type { LinksFunction } from "@remix-run/node";
-import { Outlet } from "@remix-run/react";
+import { Link, Outlet, useOutletContext } from "@remix-run/react";
 import styles from "~/styles/admin.css"
 
 export const links: LinksFunction = () => {
@@ -7,10 +7,15 @@ export const links: LinksFunction = () => {
 }
 
 export default function Admin() {
+  
   return (
-    <div>
+    <main>
       <h1>Welcome to your Admin Dashboard</h1>
-      <Outlet></Outlet>
-    </div>
+      <div>
+        <Link to="createstock">Create Stock</Link>
+        <Link to="editstock">Update Stock</Link>
+      </div>
+      <Outlet context={useOutletContext()}></Outlet>
+    </main>
   );
 }
