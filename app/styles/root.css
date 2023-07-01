@@ -134,6 +134,9 @@ aside > div {
   border-radius: 5px;
   background-color: white;
 }
+aside a {
+  text-decoration: none;
+}
 .hide {
   visibility: hidden;
 }
