@@ -65,7 +65,7 @@ export default function App() {
     count != 0 &&
       getC &&
       categoryFetcher.state === "idle" &&
-      categoryFetcher.load("/getCategories?count=" + count);
+      categoryFetcher.load("/getcategories/" + count);
   }, [count]);
 
   useEffect(() => {

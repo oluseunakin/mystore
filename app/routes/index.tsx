@@ -58,7 +58,7 @@ export default function Index() {
     count != 0 &&
       !eod &&
       stockFetcher.state === "idle" &&
-      stockFetcher.load("/getStock?count=" + count);
+      stockFetcher.load("/getstock/" + count);
   }, [count]);
 
   useEffect(() => {
