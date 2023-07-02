@@ -14,37 +14,40 @@ export const MediaComponent = (props: { sources: Media[] }) => {
   }, []);
 
   useEffect(() => {
-    let t: NodeJS.Timeout | null = null
+    let t: NodeJS.Timeout | null = null;
     if (media && document.body.clientWidth < 623) {
       const length = media.length;
-      if(length === 1) return
+      if (length === 1) return;
       const nm = Array<HTMLDivElement>();
-      let delay = 7000
-      media.forEach((md, i) => {
-        const content = md.firstElementChild
-        if(content?.tagName === 'VIDEO') {
-          const rcontent = content as HTMLMediaElement
-          delay = 2 * rcontent.duration * 1000
-        }
-        let oldX = md.style.translate;
-        oldX = oldX ? oldX.slice(0, oldX.indexOf("p")) : "0";
-        const x = Number(oldX);
-        const clientWidth = md.clientWidth;
-        if (i === length - 1) {
-          md.style.translate = `${-i * clientWidth + x - i * 10}px`;
-          i = 0;
-        } else {
-          md.style.translate = `${clientWidth + x + 10}px`;
-          i++;
-        }
-        nm[i] = md;
-      })
-      t = setTimeout(setMedia, delay, nm)
+      let delay = 7000;
+      setTimeout(() => {
+        media.forEach((md, i) => {
+          const content = md.firstElementChild;
+          if (content?.tagName === "VIDEO") {
+            const rcontent = content as HTMLMediaElement;
+            delay = 2 * rcontent.duration * 1000;
+          }
+          let oldX = md.style.translate;
+          oldX = oldX ? oldX.slice(0, oldX.indexOf("p")) : "0";
+          const x = Number(oldX);
+          const clientWidth = md.clientWidth;
+          if (i === length - 1) {
+            md.style.translate = `${-i * clientWidth + x - i * 10}px`;
+            i = 0;
+          } else {
+            md.style.translate = `${clientWidth + x + 10}px`;
+            i++;
+          }
+          nm[i] = md;
+        });
+        setMedia(nm);
+      }, delay);
     }
     return () => {
-      t && clearTimeout(t)
-    }
+      t && clearTimeout(t);
+    };
   }, [media]);
+  
   return (
     <div ref={mediaRef} className="pics">
       {sources.map((m, i) => (
@@ -52,7 +55,7 @@ export const MediaComponent = (props: { sources: Media[] }) => {
           {m.contentType.startsWith("image") ? (
             <img src={m.url} alt="App " />
           ) : (
-            <video src={m.url} controls ></video>
+            <video src={m.url} controls></video>
           )}
         </div>
       ))}
