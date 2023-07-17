@@ -1,8 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import type { Media } from "~/helper";
 
-export const MediaComponent = (props: { sources: Media[] }) => {
-  const { sources } = props;
+export const MediaComponent = (props: {
+  sources: Media[];
+  divWidth: number;
+}) => {
+  const { sources, divWidth } = props;
   const [media, setMedia] = useState<HTMLDivElement[]>();
   const mediaRef = useRef<HTMLDivElement>(null);
 
@@ -15,7 +18,12 @@ export const MediaComponent = (props: { sources: Media[] }) => {
 
   useEffect(() => {
     let t: NodeJS.Timeout | null = null;
-    if (media && document.body.clientWidth < 623) {
+    if (
+      media &&
+      divWidth &&
+      mediaRef.current!.clientWidth < divWidth + 52 &&
+      document.body.clientWidth < 640
+    ) {
       const length = media.length;
       if (length === 1) return;
       const nm = Array<HTMLDivElement>();
@@ -46,8 +54,8 @@ export const MediaComponent = (props: { sources: Media[] }) => {
     return () => {
       t && clearTimeout(t);
     };
-  }, [media]);
-  
+  }, [media, divWidth]);
+
   return (
     <div ref={mediaRef} className="pics">
       {sources.map((m, i) => (

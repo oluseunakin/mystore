@@ -41,11 +41,11 @@ export const loader = async ({ request }: LoaderArgs) => {
     user = await getUser(session.get("userId"));
   }
   const firstCategories = await getCategories(0);
-  return json({ firstCategories, user });
+  return json({ firstCategories, user});
 };
 
 export default function App() {
-  const { firstCategories, user } = useLoaderData<typeof loader>();
+  const { firstCategories, user} = useLoaderData<typeof loader>();
   const [cart, setCart] = useState<OrderedProduct[]>([]);
   const [showCart, setShowCart] = useState(false);
   const [getC, setGetC] = useState(true);
@@ -54,8 +54,8 @@ export default function App() {
   const categoryFetcher = useFetcher();
   const [categories, setCategories] = useState<string[]>(firstCategories);
   const [count, setCount] = useState(0);
-  const asideRef = useRef<HTMLDivElement>(null);
-
+  const categoriesRef = useRef<HTMLDivElement>(null);
+  
   useEffect(() => {
     count == 0 &&
       localStorage.setItem("firstcat", JSON.stringify(firstCategories));
@@ -66,7 +66,7 @@ export default function App() {
       getC &&
       categoryFetcher.state === "idle" &&
       categoryFetcher.load("/getcategories/" + count);
-  }, [count]);
+  }, [count, getC]);
 
   useEffect(() => {
     if (categoryFetcher.data && categoryFetcher.state === "idle") {
@@ -82,7 +82,7 @@ export default function App() {
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;
-    const bounds = asideRef.current?.getBoundingClientRect();
+    const bounds = categoriesRef.current?.getBoundingClientRect();
     const viewWidth = window.innerWidth || document.documentElement.clientWidth;
     const viewHeight =
       window.innerHeight || document.documentElement.clientHeight;
@@ -114,11 +114,11 @@ export default function App() {
       </head>
       <body>
         <header>
-          <h1>
-            <Link to="/">Welcome to our Store</Link>
-          </h1>
           <div>
-            <div className="search">
+            <h1>
+              <Link to="/">Welcome to our Store</Link>
+            </h1>
+            <div>
               <input
                 type="search"
                 placeholder="Search"
@@ -133,67 +133,59 @@ export default function App() {
               >
                 <span className="material-symbols-outlined">search</span>
               </button>
+              {user ? (
+                <nav className="userinfo">
+                  <button
+                    onClick={() => {
+                      cart.length > 0 && setShowCart(true);
+                    }}
+                  >
+                    <span className="material-symbols-outlined">
+                      shopping_cart
+                    </span>
+                    {cart && cart.length > 0 ? <sup>{cart.length}</sup> : null}
+                  </button>
+                  <button>
+                    <span className="material-symbols-outlined">
+                      manage_accounts
+                    </span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      submit(null, { method: "post", action: "/logout" });
+                    }}
+                  >
+                    <span className="material-symbols-outlined">logout</span>
+                  </button>
+                </nav>
+              ) : (
+                <nav className="guest">
+                  <Link to="/login">Login</Link>
+                  <Link to="/signup">Sign up</Link>
+                </nav>
+              )}
             </div>
-            {user ? (
-              <nav className="userinfo">
-                <button className="abs"
-                  onClick={() => {
-                    const classList = asideRef.current!.classList;
-                    if (classList.contains("hide")) classList.remove("hide");
-                    else classList.add("hide");
-                  }}
-                >
-                  <span className="material-symbols-outlined">menu</span>
-                </button>
-                <button
-                  onClick={() => {
-                    cart.length > 0 && setShowCart(true);
-                  }}
-                >
-                  <span className="material-symbols-outlined">
-                    shopping_cart
-                  </span>
-                  {cart && cart.length > 0 ? <sup>{cart.length}</sup> : null}
-                </button>
-                <button>
-                  <span className="material-symbols-outlined">
-                    manage_accounts
-                  </span>
-                </button>
-                <button
-                  onClick={() => {
-                    submit(null, { method: "post", action: "/logout" });
-                  }}
-                >
-                  <span className="material-symbols-outlined">logout</span>
-                </button>
-              </nav>
-            ) : (
-              <nav className="guest">
-                <Link to="/login">Login</Link>
-                <Link to="/signup">Sign up</Link>
-              </nav>
-            )}
           </div>
+          {categories.length > 0 && (
+            <nav ref={categoriesRef} className="categories">
+              {categories.map((c, i) => (
+                <div key={i}>
+                  <Link
+                    to={(() => `/category/${c}`)()}
+                    onClick={() => {
+                      const classList = categoriesRef.current!.classList;
+                      if (classList.contains("hide")) classList.remove("hide");
+                      else classList.add("hide");
+                    }}
+                  >
+                    {c}
+                  </Link>
+                </div>
+              ))}
+              <div><Link to="/category/all">See All</Link></div>
+            </nav>
+          )}
         </header>
-        {categories.length > 0 && (
-          <aside ref={asideRef} className="hide">
-            {categories.map((c, i) => (
-              <div key={i}>
-                <Link
-                  to={(() => `/category/${c}`)()}
-                  onClick={() => {
-                    const classList = asideRef.current!.classList;
-                    if (classList.contains("hide")) classList.remove("hide");
-                    else classList.add("hide");
-                  }}
-                >
-                  {c}
-                </Link>
-              </div>
-            ))}
-          </aside>
-        )}
         {showCart ? (
           <div className="ct">
             <button

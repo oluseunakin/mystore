@@ -9,7 +9,7 @@ export const ProductComponent = memo(function PC(props: {
   isStock?: boolean;
 }) {
   const divRef = useRef<HTMLDivElement>(null);
-  const { cart, setCart, user } = useOutletContext<ContextType>();
+  const { setCart, user, cart } = useOutletContext<ContextType>()?? {setCart: undefined, user: undefined, cart: []};
   const { product, isStock } = props;
   const cartIndex = useMemo(() => {
     return cart.findIndex((op, i) => op.name === product.name);
@@ -36,12 +36,13 @@ export const ProductComponent = memo(function PC(props: {
         .map((r, i) => i < rated);
     return Array(5).fill(false);
   });
+
   return (
     <div className="product" ref={divRef}>
       <h2>{product.name}</h2>
       <h3>{product.description}</h3>
-      {product.urls!.length > 0 && (
-        <MediaComponent sources={product.urls!} />
+      {product.urls!.length > 0 && divRef.current &&  (
+        <MediaComponent sources={product.urls!} divWidth={divRef.current.clientWidth}/>
       )}
       {hasBoughtItemIndex != -1 && (
         <div className="ratings">

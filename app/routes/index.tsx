@@ -1,38 +1,39 @@
-import {
-  type LoaderArgs,
-  type LinksFunction,
-  json,
-} from "@remix-run/node";
+import { type LinksFunction, json } from "@remix-run/node";
 import styles from "../styles/index.css";
-import { useFetcher, useLoaderData } from "@remix-run/react";
+import { useFetcher, useLoaderData, useNavigation } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
-import type { Product} from "~/helper";
+import type { Product } from "~/helper";
 import { getProducts, getTopProducts } from "~/helper";
 import { ProductComponent } from "~/components/Product";
+import TopProduct from "~/components/TopProduct";
+import { MediaComponent } from "../components/Media";
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: styles }];
 };
 
-export const loader = async ({ request }: LoaderArgs) => {
-  const highlight = await getTopProducts(0);
+export const loader = async () => {
   const firstStock = await getProducts(0);
-  return json({ highlight, firstStock});
+  const highlight = await getTopProducts(0);
+  return json({ firstStock, highlight });
 };
 
 export default function Index() {
-
-  const { highlight, firstStock } = useLoaderData<typeof loader>();
-  const [scount, setSCount] = useState(0);
-  const [getP, setGetP] = useState(true);
+  const navigation = useNavigation();
+  const { firstStock, highlight } = useLoaderData<typeof loader>();
   const [count, setCount] = useState(0);
   const stockFetcher = useFetcher<Product[]>();
-  const topFetcher = useFetcher<Product[]>();
-  const [topProducts, setTopProducts] = useState<Product[]>(highlight);
   const [stock, setStock] = useState<Product[]>(firstStock);
-  const divRef = useRef<HTMLDivElement>(null);
   const [eod, setEOD] = useState(false); //end of data fetch
   const [inPosition, setInPosition] = useState(false);
+  const [topProducts, setTopProducts] = useState<Product[]>(highlight);
+  const [getP, setGetP] = useState(true);
+  const [scount, setSCount] = useState(0);
+  const topFetcher = useFetcher<Product[]>();
+  const divRef = useRef<HTMLDivElement>(null);
+  const mediaRef = useRef<HTMLDivElement>(null);
+  const [divWidth, setDivWidth] = useState(-1)
+
   function isAtPosition() {
     window.requestAnimationFrame(() => {
       const height = window.innerHeight;
@@ -46,9 +47,13 @@ export default function Index() {
   }
 
   useEffect(() => {
-    localStorage.setItem("highlight", JSON.stringify(highlight));
+    if (mediaRef.current) setDivWidth(mediaRef.current.clientWidth / 2);
+  }, [mediaRef.current]);
+
+  useEffect(() => {
     localStorage.setItem("first", JSON.stringify(firstStock));
-  }, [firstStock, highlight]);
+    scount && localStorage.setItem("highlight", JSON.stringify(highlight));
+  }, [firstStock, scount, highlight]);
 
   useEffect(() => {
     inPosition && setCount((old) => old + 1);
@@ -59,7 +64,7 @@ export default function Index() {
       !eod &&
       stockFetcher.state === "idle" &&
       stockFetcher.load("/getstock/" + count);
-  }, [count]);
+  }, [count, eod]);
 
   useEffect(() => {
     if (stockFetcher.state === "idle" && stockFetcher.data) {
@@ -71,10 +76,6 @@ export default function Index() {
       }
     }
   }, [stockFetcher]);
-
-  useEffect(() => {
-    window.addEventListener("scroll", isAtPosition);
-  });
 
   useEffect(() => {
     const bounds = divRef.current?.getBoundingClientRect();
@@ -92,7 +93,7 @@ export default function Index() {
       if (inView) {
         timeout = setTimeout(() => {
           setSCount((old) => old + 1);
-        }, 10000);
+        }, 20000);
       }
     }
     return () => {
@@ -105,7 +106,7 @@ export default function Index() {
       getP &&
       topFetcher.state === "idle" &&
       topFetcher.load("/getproducts/" + scount);
-  }, [scount]);
+  }, [scount, getP]);
 
   useEffect(() => {
     if (topFetcher.data && topFetcher.state === "idle") {
@@ -119,13 +120,29 @@ export default function Index() {
     }
   }, [topFetcher]);
 
+  useEffect(() => {
+    window.addEventListener("scroll", isAtPosition);
+  });
+
+  if (navigation.state === "loading") return <div className="spinner"></div>;
+
   return (
     <main>
       {topProducts.length > 0 && (
-        <div className="top">
+        <div className="top" ref={divRef}>
           {topProducts.map((product, i) => (
-            <div key={i} ref={divRef}>
-              <ProductComponent product={product} />
+            <div key={i} ref={mediaRef}>
+              {divWidth != -1 && (
+                <TopProduct
+                  message="Hey, grab this awoof"
+                  media={
+                    <MediaComponent
+                      sources={product.urls!}
+                      divWidth={divWidth}
+                    />
+                  }
+                />
+              )}
             </div>
           ))}
         </div>
@@ -134,7 +151,7 @@ export default function Index() {
         <div>
           {stock.map((product, i) => (
             <ProductComponent key={i} product={product} isStock={true} />
-          ))}
+          ))} 
         </div>
       )}
     </main>

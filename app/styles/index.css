@@ -1,7 +1,27 @@
 .top {
-  margin-bottom: 10vh;
-  border-bottom: 1px solid white;
+  display: flex;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.topProduct {
+  padding: 10px;
+  display: flex;
+  gap: 5px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), 0 8px 16px rgba(0, 0, 0, 0.4);
+  padding: 20px;
+  margin: 5px;
+}
+.topProduct > div:first-child {
+  flex: 1;
+  font-size: 3rem;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+.topProduct > div:last-child {
+  flex: 1;
 }
 @media screen and (min-width: 40em) {
-  
 }
