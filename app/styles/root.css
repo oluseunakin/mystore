@@ -35,6 +35,9 @@ button {
   border-radius: 7px;
   cursor: pointer;
 }
+.beSeen {
+  display: unset;
+}
 select,
 input {
   padding: 10px;
@@ -79,6 +82,7 @@ header > h1 {
   text-align: center;
   padding: 10px;
   padding-bottom: 30px;
+  margin-top: 30px;
 }
 header > h1 > a {
   color: brown;
@@ -96,7 +100,8 @@ nav > div:first-of-type > div:first-of-type {
   justify-content: center;
   gap: 10px;
 }
-.userinfo, .guest {
+.userinfo,
+.guest {
   display: flex;
   justify-content: center;
   gap: 30px;
@@ -109,16 +114,26 @@ nav > div:first-of-type > div:first-of-type {
 }
 .guest a {
   background-color: #ffebcd;
-    font-size: 1.3em;
-    color: brown;
-    border-radius: 7px;
-    padding: 7px;
-    text-decoration: none;
-} 
+  font-size: 1.3em;
+  color: brown;
+  border-radius: 7px;
+  padding: 7px;
+  text-decoration: none;
+}
+.menubutton {
+  position: fixed;
+  right: 0;
+  top: 0;
+}
 .categories {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.showmenu {
   display: flex;
-  justify-content: space-evenly;
-  gap: 20px;
+  visibility: visible;
 }
 .categories > div {
   padding: 7px 10px;
@@ -289,7 +304,18 @@ nav > div:first-of-type > div:first-of-type {
     grid-template-columns: 1fr 1fr;
     margin-bottom: 20px;
   }
-  .userinfo, .guest {
+  header > h1 {
+    margin-top: 0;
+  }
+  .categories {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .userinfo,
+  .guest {
     display: flex;
     justify-content: end;
     gap: 30px;
@@ -309,5 +335,8 @@ nav > div:first-of-type > div:first-of-type {
   }
   .ct {
     left: 28%;
+  }
+  .menubutton {
+    display: none;
   }
 }
