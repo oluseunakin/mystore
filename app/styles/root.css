@@ -39,19 +39,19 @@ select,
 input {
   padding: 10px;
 }
+input {
+  background-color: white;
+  color: black;
+}
 option {
   background-color: #f3f3f3;
 }
-header {
+nav {
   position: sticky;
-  top: 0px;
-  z-index: 1000;
-  margin-bottom: 30px;
-}
-header > div:first-of-type {
-  background-color: chocolate;
-  color: white;
+  top: 0;
   padding: 10px;
+  background-color: #7c3947;
+  margin-bottom: 20px;
 }
 .search input {
   border-radius: 5px;
@@ -72,29 +72,32 @@ header > div:first-of-type {
   color: brown;
   border-radius: 7px;
 }
-header > div:first-of-type > h1 {
-  font-size: 2rem;
+header > h1 {
+  font-size: 3rem;
   display: flex;
   justify-content: center;
   text-align: center;
   padding: 10px;
   padding-bottom: 30px;
 }
-header > div:first-of-type > h1 > a {
-  color: white;
+header > h1 > a {
+  color: brown;
   text-decoration: none;
 }
-header > div:first-of-type > div {
+nav > div:first-of-type {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 20px;
+}
+nav > div:first-of-type > div:first-of-type {
   display: flex;
   justify-content: center;
   gap: 10px;
-  flex-wrap: wrap;
-  align-items: center;
 }
 .userinfo, .guest {
-  justify-content: end;
   display: flex;
-  gap: 10px;
+  justify-content: end;
+  gap: 30px;
 }
 .userinfo button {
   background-color: blanchedalmond;
@@ -111,11 +114,7 @@ header > div:first-of-type > div {
     text-decoration: none;
 } 
 .categories {
-  background-color: #5f9ea08c;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), 0 8px 16px rgba(0, 0, 0, 0.4);
-  padding: 7px 2px;
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-evenly;
   gap: 20px;
 }
@@ -281,11 +280,6 @@ header > div:first-of-type > div {
 @media screen and (min-width: 40em) {
   .hide {
     visibility: unset;
-  }
-  header > div:first-of-type {
-    display: grid;
-    gap: 10px;
-    grid-template-columns: 1fr 1fr;
   }
   .userinfo > button:first-of-type {
     visibility: hidden;

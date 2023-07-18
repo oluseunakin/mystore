@@ -41,11 +41,11 @@ export const loader = async ({ request }: LoaderArgs) => {
     user = await getUser(session.get("userId"));
   }
   const firstCategories = await getCategories(0);
-  return json({ firstCategories, user});
+  return json({ firstCategories, user });
 };
 
 export default function App() {
-  const { firstCategories, user} = useLoaderData<typeof loader>();
+  const { firstCategories, user } = useLoaderData<typeof loader>();
   const [cart, setCart] = useState<OrderedProduct[]>([]);
   const [showCart, setShowCart] = useState(false);
   const [getC, setGetC] = useState(true);
@@ -55,7 +55,7 @@ export default function App() {
   const [categories, setCategories] = useState<string[]>(firstCategories);
   const [count, setCount] = useState(0);
   const categoriesRef = useRef<HTMLDivElement>(null);
-  
+
   useEffect(() => {
     count == 0 &&
       localStorage.setItem("firstcat", JSON.stringify(firstCategories));
@@ -114,10 +114,12 @@ export default function App() {
       </head>
       <body>
         <header>
+          <h1>
+            <Link to="/">Welcome to our Store</Link>
+          </h1>
+        </header>
+        <nav>
           <div>
-            <h1>
-              <Link to="/">Welcome to our Store</Link>
-            </h1>
             <div>
               <input
                 type="search"
@@ -133,41 +135,41 @@ export default function App() {
               >
                 <span className="material-symbols-outlined">search</span>
               </button>
-              {user ? (
-                <nav className="userinfo">
-                  <button
-                    onClick={() => {
-                      cart.length > 0 && setShowCart(true);
-                    }}
-                  >
-                    <span className="material-symbols-outlined">
-                      shopping_cart
-                    </span>
-                    {cart && cart.length > 0 ? <sup>{cart.length}</sup> : null}
-                  </button>
-                  <button>
-                    <span className="material-symbols-outlined">
-                      manage_accounts
-                    </span>
-                  </button>
-                  <button
-                    onClick={() => {
-                      submit(null, { method: "post", action: "/logout" });
-                    }}
-                  >
-                    <span className="material-symbols-outlined">logout</span>
-                  </button>
-                </nav>
-              ) : (
-                <nav className="guest">
-                  <Link to="/login">Login</Link>
-                  <Link to="/signup">Sign up</Link>
-                </nav>
-              )}
             </div>
+            {user ? (
+              <div className="userinfo">
+                <button
+                  onClick={() => {
+                    cart.length > 0 && setShowCart(true);
+                  }}
+                >
+                  <span className="material-symbols-outlined">
+                    shopping_cart
+                  </span>
+                  {cart && cart.length > 0 ? <sup>{cart.length}</sup> : null}
+                </button>
+                <button>
+                  <span className="material-symbols-outlined">
+                    manage_accounts
+                  </span>
+                </button>
+                <button
+                  onClick={() => {
+                    submit(null, { method: "post", action: "/logout" });
+                  }}
+                >
+                  <span className="material-symbols-outlined">logout</span>
+                </button>
+              </div>
+            ) : (
+              <div className="guest">
+                <Link to="/login">Login</Link>
+                <Link to="/signup">Sign up</Link>
+              </div>
+            )}
           </div>
           {categories.length > 0 && (
-            <nav ref={categoriesRef} className="categories">
+            <div ref={categoriesRef} className="categories">
               {categories.map((c, i) => (
                 <div key={i}>
                   <Link
@@ -182,10 +184,12 @@ export default function App() {
                   </Link>
                 </div>
               ))}
-              <div><Link to="/category/all">See All</Link></div>
-            </nav>
+              <div>
+                <Link to="/category/all">See All</Link>
+              </div>
+            </div>
           )}
-        </header>
+        </nav>
         {showCart ? (
           <div className="ct">
             <button
