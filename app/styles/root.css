@@ -85,8 +85,10 @@ header > h1 > a {
   text-decoration: none;
 }
 nav > div:first-of-type {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
   margin-bottom: 20px;
 }
 nav > div:first-of-type > div:first-of-type {
@@ -96,7 +98,7 @@ nav > div:first-of-type > div:first-of-type {
 }
 .userinfo, .guest {
   display: flex;
-  justify-content: end;
+  justify-content: center;
   gap: 30px;
 }
 .userinfo button {
@@ -256,6 +258,7 @@ nav > div:first-of-type > div:first-of-type {
 .pics > div img,
 .pics > div video {
   max-width: 100%;
+  z-index: -1;
 }
 .pics > div video {
   height: 45vh;
@@ -280,6 +283,16 @@ nav > div:first-of-type > div:first-of-type {
 @media screen and (min-width: 40em) {
   .hide {
     visibility: unset;
+  }
+  nav > div:first-of-type {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 20px;
+  }
+  .userinfo, .guest {
+    display: flex;
+    justify-content: end;
+    gap: 30px;
   }
   .userinfo > button:first-of-type {
     visibility: hidden;
