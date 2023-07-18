@@ -117,15 +117,20 @@ export default function App() {
           <h1>
             <Link to="/">Welcome to our Store</Link>
           </h1>
-          <div>
-          <button className="menubutton" onClick={() => {
-            const categories = categoriesRef.current!
-            if(categories.classList.contains("hide")) categories.classList.replace("hide", "showmenu")
-            else if(categories.classList.contains("showmenu")) categories.classList.replace("showmenu", "hide")
-            else categories.classList.add("showmenu")
-         }}>
-            <span className="material-symbols-outlined">menu</span>
-          </button></div>
+          <div className="menubutton">
+            <button
+              onClick={() => {
+                const categories = categoriesRef.current!;
+                if (categories.classList.contains("hide"))
+                  categories.classList.replace("hide", "showmenu");
+                else if (categories.classList.contains("showmenu"))
+                  categories.classList.replace("showmenu", "hide");
+                else categories.classList.add("showmenu");
+              }}
+            >
+              <span className="material-symbols-outlined">menu</span>
+            </button>
+          </div>
         </header>
         <nav>
           <div>

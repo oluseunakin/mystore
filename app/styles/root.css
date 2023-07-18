@@ -310,6 +310,12 @@ nav > div:first-of-type > div:first-of-type {
   .hide {
     visibility: unset;
   }
+  header {
+    margin-top: 0;
+  }
+  nav {
+    top: 0;
+  }
   nav > div:first-of-type {
     display: grid;
     grid-template-columns: 1fr 1fr;
