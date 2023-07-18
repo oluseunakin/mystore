@@ -117,6 +117,7 @@ export default function App() {
           <h1>
             <Link to="/">Welcome to our Store</Link>
           </h1>
+          <div>
           <button className="menubutton" onClick={() => {
             const categories = categoriesRef.current!
             if(categories.classList.contains("hide")) categories.classList.replace("hide", "showmenu")
@@ -124,7 +125,7 @@ export default function App() {
             else categories.classList.add("showmenu")
          }}>
             <span className="material-symbols-outlined">menu</span>
-          </button>
+          </button></div>
         </header>
         <nav>
           <div>
