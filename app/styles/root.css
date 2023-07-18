@@ -284,7 +284,6 @@ nav > div:first-of-type > div:first-of-type {
 .pics > div img,
 .pics > div video {
   max-width: 100%;
-  z-index: -1;
 }
 .pics > div video {
   height: 45vh;
