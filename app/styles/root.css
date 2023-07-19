@@ -188,9 +188,13 @@ nav > div:first-of-type > div:first-of-type {
   justify-content: center;
   align-items: center;
 }
+.info + div {
+  justify-content: space-between;
+}
 .info + div > div {
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
 }
 .ct {
   background-color: #fff;
